@@ -26,15 +26,15 @@ e.g with env in (dev,qa), we are selecting objects where the env label is set to
 
 In the following example, we have a Deployment which creates a ReplicaSet A. ReplicaSet A then creates 3 Pods. In each Pod, one of the containers uses the nginx:1.7.9 imageIn the following example, we have a Deployment which creates a ReplicaSet A. ReplicaSet A then creates 3 Pods. In each Pod, one of the containers uses the nginx:1.7.9 image
 
-![d1] (images\d1.PNG)
+![d1](images/d1.PNG)
 
 Now, in the Deployment, we change the Pod's template and we update the image for the nginx container from nginx:1.7.9  to nginx:1.9.1. Ashave modified the Pod's template, a new ReplicaSet B gets created. This process is referred to as a Deployment rollout
 
-![d2] (images\d2.PNG)
+![d2](images/d2.PNG)
 
 Once ReplicaSet B is ready, the Deployment starts pointing to it.
 
-![d3] (images\d3.PNG)
+![d3](images/d3.PNG)
 
 
 
