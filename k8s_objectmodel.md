@@ -56,3 +56,30 @@ Using Selectors (app==frontend and app==db), we can group them into two logical 
 We can assign a name to the logical grouping, referred to as a service name. In our example, we have created two Services, frontend-svc  and db-svc, and they have the app==frontend and the app==db Selectors, respectively.
 
 ![s2](images/s2.PNG)
+
+e.g. service yaml
+
+```
+kind: Service
+apiVersion: v1
+metadata:
+  name: frontend-svc
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+```
+By default, each Service also gets an IP address, which is routable only inside the cluster.The IP address attached to each Service is also known as the ClusterIP for that Service.  
+frontend-svc, we will receive requests from the user/client on Port 80. We will then forward these requests to one of the attached Pods on Port 5000
+
+## Service Types
+* ClusterIP: it is the default service type, only accesible within the cluster
+
+* NodePort:  in addition to creating a ClusterIP, a port from the range 30000-32767 is mapped to the respective service, from all the Worker Nodes. For example, if the mapped NodePort is 32233 for the service frontend-svc, then, if we connect to any Worker Node on port 32233, the node would redirect all the traffic to the assigned ClusterIP - 172.17.0.4
+
+* LoadBalancer: NodePort and ClusterIP Services are automatically created, and the external load balancer will route to them
+* ExternalIP
+* ExternalName
