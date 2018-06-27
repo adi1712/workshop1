@@ -39,12 +39,12 @@ if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
 EOF
 
-```
 cat > requirements.txt <<EOF
 FLask
 EOF
-
+```
 ## Write the Docker File
+```
 cat > Dockerfile <<EOF
 FROM ubuntu:16.04
 COPY .  /app
@@ -54,7 +54,45 @@ RUN  apt-get install -y python-pip
 RUN  pip install -r requirements.txt
 CMD  python hello.py
 EOF
-
+```
 ## Build the docker image
 set ```eval $(minikube docker-env)``` to reuse the docker dameon from minikube
+build the image with docker build
+```
+docker build -t hello-world:v1 .
+```
+check the image list with ```docker images```
 
+## Write Kubernetes yaml file
+```
+cat > flask_deployment.yaml <<EOF
+apiVersion: apps/v1 # 
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  selector:
+    matchLabels:
+      app: flask-app
+  replicas: 2 # 
+  template: # 
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: hello-worldv1
+        image: hello-world:v1
+        ports:
+        - containerPort: 5000
+EOF
+```
+
+## Deploy
+```
+kubectl apply -f my_deployment.yaml
+```
+check pods status with
+```
+kubectl get pods -l app=flask-app
+```
